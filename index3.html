@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+    <!--
+    Load CartoDB's code so we can pull in our CartoDB maps.
+    -->
+    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
+    <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
+<style>
+    <div style="background-color:#E8B880; background-position: center; margin-left: 50px">
+          </div>
+    <a style="font-color: blue; font-family: Courier; font-size: 17px; target=”_blank”New Tab";">
+          </a>
+    <img style-="padding:20px; "image-align:center;">
+          </img>
+            
+.borough-picker {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        z-index: 5000;
+	   background: green;
+	   cursor: pointer;
+	   font-size: 20px;
+	   height: 25px;
+	   width: 250px;
+	   padding: 12px;
+      }
+.borough-picker:hover {
+	   background: white;
+        }
+
+</style>
+        <!--
+    this is the javascript.
+    -->
+<script>
+    
+    var dataLayer;
+      $(document).ready(function () { 
+      //
+      // Initialize map from CartoDB
+      //
+        cartodb.createVis('map', 'https://churchouse.cartodb.com/api/v2/viz/2b818cbe-de51-11e5-ab98-0ecd1babdde5/viz.json')
+    .done(function (vis, layers) {
+      // Store the data layer for later:
+      //  * layers[0] is the base layer
+      //  * layers[1] is where all of your data layers go, and they're stored as "sublayers". The first one is numbered 0, the second is 1, etc. In this case we're getting the first sublayer.
+       dataLayer = layers[1].getSubLayer(0);     
+        });
+        
+    //
+    // Initialize the button: add an event handler to watch for clicks
+    //
+    $('.borough-picker').change(function () {
+        var borough = $(this).val();  
+        var sql;
+        if (borough === 'all') { 
+            sql = "SELECT * FROM listings_2london"
+        } 
+        else {
+         sql = "SELECT * FROM listings_2london WHERE borough = '" + borough + "'";   
+        }
+          dataLayer.setSQL(sql);
+        });
+      });
+    </script>
+</head>
+    
+<body style="background-color: light grey; font-family: Courier;">
+          <header>
+              <h2 style= "color: #E84511; margin-left: 40px; padding-top: 15px" >AIRBNB LONDON, U.K. LISTINGS</h2>
+          </header>
+    <div>
+    <p> <h3 style= "color: #FF530D; margin-left: 45px"><em>London by day and night:</em></h3></p>
+        <p style="text-align:center;"><span><img width="33.5%" height="" frameborder="0" src="http://www.travelvana.com/wp-content/uploads/2013/02/Tower-of-London1-575x382.jpg"/> 
+        <img width="54%" height="" frameborder="0" src="http://www.foreignstudents.com/sites/default/files/imagecache/university_image/Tower%20Bridge%20comp.jpg"/></span></p>
+    </div>
+    <div>
+          <br/>
+          <p>
+    <h2 style="margin-left: 40px"><a href="https://www.airbnb.com/s/London--United-Kingdom?s_tag=289L2VLL" target=”_blank”New Tab"><strong>Airbnb London,UK</strong></a></h2>
+          
+    </div>
+    <p style ="text-align:center;"> 
+</p>
+<br/>
+<p> 
+    <a href="http://www.timeout.com/london/food-drink/londons-best-cheap-eats" target=”_blank”New Tab"><h3 style="margin-left: 40px">Time Out: The 100 best cheap eats in London</h3></a> 
+         <p></p>
+    <a href="http://www.londontravelwatch.org.uk/consumer_advice/money_saving_transport_tips" target=”_blank”New Tab"><h3 style="margin-left: 40px; padding-top: 20px; padding-bottom: 35px">Travelling Around London: Best transport tips</h3></a>
+    <p></p>
+</p>
+<div style="width: 82%; margin-left: 105px; background-color: #BBE1FF; padding: 20px;">
+    <p style="font-size: 18px; color: #FF530D; padding-top: 10px; padding-bottom: 30px; padding-left: 30px"> 
+    List of <strong><em>East London neighborhood options</em></strong> close to the city center:
+      <select name="neighbourhood_cleansed">
+        <option>All boroughs</option>               <option>Hackney</option>
+        <option>Shoreditch</option>
+        <option>Islington</option>
+        <option>City of London</option>
+        <option>Camden</option>
+    </select>
+<div id="map"></div>
+    <select class="borough-picker">
+      <option value="all">All boroughs</option>
+      <option value="Hackney">Hackney</option>
+      <option value="Shoreditch">Shoreditch</option>
+      <option value="Islington">Islington</option>
+      <option value="City of London">City of London</option>
+      <option value="Camden">Camden</option>
+      <option value="">other</option>
+    </select>
+    <p style="font-size: 17px; color: #68666E; padding-top: 30px; padding-left: 30px">
+       There are many listings available in <em>Airbnb's three room types</em>:                                                                  
+      <ul style="font-size: 17px; color: #FF530D; padding-left: 50px">
+          <li>13,331 <strong>entire home/apartments</strong></li>
+          <li>11,614  <strong>private rooms</strong></li>
+          <li>416  <strong>shared rooms</strong></li>
+        </ul> 
+        </p>  
+      </div>
+    </body>
+</html>
